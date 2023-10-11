@@ -5,7 +5,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 !**/trello.txt/
-!**/misc.txt/
+!misc.txt
 
 ### STS ###
 .apt_generated
