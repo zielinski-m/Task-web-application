@@ -1,0 +1,21 @@
+spring.datasource.url=jdbc:${JDBC_DATABASE_URL}
+spring.jpa.database=mysql
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+
+
+REPLIT
+run = "java -classpath .:target/dependency/* Main"
+compile = "javac -classpath .:target/dependency/* -d . $(find . -type f -name '*.java')"
+[nix]
+channel = "stable-21_11"
+[deployment]
+run = ["sh", "-c", "java -classpath .:target/dependency/* Main"]
+build = ["sh", "-c", "javac -classpath .:target/dependency/* -d . $(find . -type f -name '*.java')"]
+
+NIX
+{ pkgs }: {
+    deps = [
+        pkgs.jdk17_headless
+    ];
+}
