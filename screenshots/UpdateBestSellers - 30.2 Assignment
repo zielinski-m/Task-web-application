@@ -1,0 +1,26 @@
+DELIMITER $$
+
+CREATE PROCEDURE UpdateBestsellers()
+BEGIN
+    DECLARE BOOKS_ID, RENT_COUNT INT;
+    DECLARE FINISHED INT default 0;
+    DECLARE ALL_BOOKS CURSOR FOR SELECT BOOK_ID FROM books;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET FINISHED = 1;
+
+    OPEN ALL_BOOKS;
+    WHILE (FINISHED = 0) DO
+        FETCH ALL_BOOKS INTO BOOKS_ID;
+        IF(FINISHED = 0) THEN
+            SELECT COUNT(*) INTO RENT_COUNT FROM rents WHERE BOOK_ID = BOOKS_ID;
+
+            IF RENT_COUNT > 2 THEN
+                UPDATE books SET BESTSELLER = TRUE WHERE BOOK_ID = BOOKS_ID;
+            end if;
+        end if;
+        end while;
+    CLOSE ALL_BOOKS;
+end $$
+    DELIMITER ;
+
+CALL UpdateBestsellers();
+SELECT * FROM books;

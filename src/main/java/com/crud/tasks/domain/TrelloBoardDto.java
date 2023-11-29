@@ -23,7 +23,7 @@ public class TrelloBoardDto {
     public TrelloBoardDto(String id, String name, List<TrelloListDto> lists) {
         this.id = id;
         this.name = name;
-        this.lists = new ArrayList<>();
+        this.lists = lists;
     }
 
     public TrelloBoardDto() {}
