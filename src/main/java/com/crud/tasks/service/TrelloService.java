@@ -18,7 +18,7 @@ public class TrelloService {
 
     public static final String SUBJECT = "Tasks: New Trello card";
     private final TrelloClient trelloClient;
-    private final SimpleEmailService emailService;
+    private final SimpleMailService emailService;
     private final AdminConfig adminConfig;
 
     public List<TrelloBoardDto> fetchTrelloBoards() {
@@ -32,8 +32,7 @@ public class TrelloService {
                 new Mail(
                         adminConfig.getAdminMail(),
                         SUBJECT,
-                        "New card: " + trelloCardDto.getName() + " has been created on your Trello account",
-                        null
+                        "New card: " + trelloCardDto.getName() + " has been created on your Trello account"
                 )));
         return newCard;
     }
