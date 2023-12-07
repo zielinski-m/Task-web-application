@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Daily Tasks Summary</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            background-color: #0056b3;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #262729;
+        }
+
+        section {
+            padding: 20px;
+            background-color: #9eced3;
+            color: #262729;
+            border-radius: 0 0 10px 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #777;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <img src="https://via.placeholder.com/100" alt="Placeholder Logo" width="100">
+    </header>
+
+    <section>
+        <h2 th:text="${mail_title}"></h2>
+
+        <div>
+        <p th:if="${isCustomer}"> Welcome back <span th:text="${admin_name}"></span></p>
+        <p th:unless="${isCustomer}">Hi there <span th:text="${admin_name}"></span></p>
+        </div>
+
+        <p style="font-weight: bold">Here is the summary of daily tasks:</p>
+
+        <ul>
+            <li>Task Count: <span th:text="${task_count}">0</span></li>
+        </ul>
+
+        <p>Contact Information:</p>
+        <pre th:text="${company_info}"></pre>
+
+    </section>
+
+    <footer th:text="${footer}"></footer>
+</div>
+</body>
+</html>
