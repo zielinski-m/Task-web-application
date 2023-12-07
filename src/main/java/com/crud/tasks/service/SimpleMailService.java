@@ -27,7 +27,7 @@ public class SimpleMailService {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true,  "UTF-8");
             messageHelper.setTo(mail.getMailTo());
             messageHelper.setSubject(mail.getSubject());
-            messageHelper.setText(mailCreatorService.buildTrelloCardEmail(mimeMessage.getContentMD5()), true);
+            messageHelper.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()), true);
         };
     }
     public void send(final Mail mail) {
@@ -38,25 +38,4 @@ public class SimpleMailService {
             log.error("Failed to process email sending: + e.getMessage(), e");
         }
     }
-
-//        public void send(final Mail mail) {
-//        log.info("Starting email prep...");
-//        try {
-//            SimpleMailMessage mailMessage = createMailMessage(mail);
-//            javaMailSender.send(mailMessage);
-//            log.info("Email has been sent");
-//        } catch (MailException e) {
-//            log.error("Failed to process email sending: + e.getMessage(), e");
-//        }
-//    }
-
-
-
-//    private SimpleMailMessage createMailMessage(final Mail mail) {
-//        SimpleMailMessage mailMessage = new SimpleMailMessage();
-//        mailMessage.setTo(mail.getMailTo());
-//        mailMessage.setSubject(mail.getSubject());
-//        mailMessage.setText(mail.getMessage());
-//        return mailMessage;
-//    }
 }

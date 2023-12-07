@@ -1,40 +1,62 @@
 package com.crud.tasks.service;
 
+import com.crud.tasks.config.AdminConfig;
+import com.crud.tasks.config.CompanyInfoProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-import org.thymeleaf.templateresolver.ITemplateResolver;
 
-import java.util.Collections;
-
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MailCreatorService {
-    final SpringTemplateEngine templatedEngine = new SpringTemplateEngine();
+
+    @Autowired
+    private CompanyInfoProperties companyInfoProperties;
+
+    @Autowired
+    private AdminConfig adminConfig;
 
     @Autowired
     @Qualifier("templateEngine")
     private TemplateEngine templateEngine;
 
     public String buildTrelloCardEmail(String message) {
+
+        List<String> functionality = new ArrayList<>();
+        functionality.add("You can manage your tasks");
+        functionality.add("Provides connection with Trello Account");
+        functionality.add("Application allows sending tasks to Trello");
+
         Context context = new Context();
         context.setVariable("message", message);
-//        templatedEngine.addTemplateResolver(htmlTemplateResolver());
-        return templateEngine.process("templates/mail/created-trello-card-mail.html", context);
+        context.setVariable("tasks_url", "https://zielinski.m-github.io");
+        context.setVariable("button", "Visit website");
+        context.setVariable("admin_name", adminConfig.getAdminName());
+        context.setVariable("trello_card", adminConfig.getAppName());
+        context.setVariable("goodbye_message", "Thanks for visiting us!");
+        context.setVariable("company_info",
+                "COMPANY: " + companyInfoProperties.getName() + "\n" +
+                        "\u2709: " + companyInfoProperties.getEmail() + "\n" +
+                        "\u260e: " + companyInfoProperties.getPhone());
+        context.setVariable("show_button", false);
+        context.setVariable("is_friend", true);
+        context.setVariable("admin_config", adminConfig);
+        context.setVariable("application_functionality", functionality);
+        return templateEngine.process("mail/created-trello-card-mail", context);
     }
-//    private ITemplateResolver htmlTemplateResolver() {
-//        final ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-//        templateResolver.setOrder(Integer.valueOf(2));
-//        templateResolver.setResolvablePatterns(Collections.singleton("html/*"));
-//        templateResolver.setPrefix("/mail/");
-//        templateResolver.setSuffix(".html");
-//        templateResolver.setTemplateMode(TemplateMode.HTML);
-//        templateResolver.setCacheable(false);
-//        return templateResolver;
-//    }
+
+    public String buildDailyTasksSummaryEmail(String message) {
+        Context context = new Context();
+        context.setVariable("admin_name", adminConfig.getAdminName());
+        context.setVariable("task_count", message);
+        context.setVariable("company_info",
+                "COMPANY: " + companyInfoProperties.getName() + "\n" +
+                        "\u2709: " + companyInfoProperties.getEmail() + "\n" +
+                        "\u260e: " + companyInfoProperties.getPhone());
+        return templateEngine.process("mail/daily-task-summary-mail", context);
+    }
 }

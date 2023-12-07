@@ -2,6 +2,9 @@ package com.crud.tasks.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.springframework.context.annotation.Bean;
+
+import java.beans.BeanProperty;
 
 @Data
 public class TrelloCardDto {
